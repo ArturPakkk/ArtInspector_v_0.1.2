@@ -1,5 +1,5 @@
 //@unlit
-//@name Texel Density
+//@name Texel_Density - Default
 //@description Measures UV0 pixel density in world-space meters. Red is low, green is in range, amber is high.
 //@order 10
 //@param float TextureResolution|Texture resolution|128|16384|2048

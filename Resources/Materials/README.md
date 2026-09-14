@@ -26,3 +26,8 @@ Parameters become HLSL symbols (`Scale`, `Tint`) and automatically appear in the
 Available input fields: `WorldPosition`, `Normal`, `UV`, `MaterialColor`, `VertexColor`, `UvPerMeter`, and `Flags`. The helper `TexelDensityRatio(input)` returns screen-space UV units per world-space meter.
 
 `FilteredChecker(float2 uv)` returns a pixel-filtered checker in [0,1], including negative UVs and minification. Use it instead of floor/fmod to avoid shimmering. Optional `//@unlit` selects diagnostic shading by default; the user may still switch to Lit. Unlit colors are display colors and bypass exposure/tone mapping. Lit material colors are interpreted as linear reflectance.
+
+
+## ArtInspector legacy integration, 2026-09-14
+
+The eleven shipped HLSL files are copied unchanged from ArtInspectorUI_Source/resources/Materials. Old HLSL/GLSL files have been removed from this version and its current build. The host supports up to 64 parameter slots and choice labels/values. Solid Wireframe uses noperspective barycentrics from the existing expanded, non-indexed triangle list; each draw starts on a triangle boundary. Emissive is added independently of base-color lighting before output mapping; this renderer has no Bloom pass. Selecting a checker preserves Lit/Unlit and sun/environment settings. Refresh in the application header clears the scene; F5 remains material reload.

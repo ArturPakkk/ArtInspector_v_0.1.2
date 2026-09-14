@@ -1,16 +1,21 @@
 //@unlit
-//@name Texel Density v3
-//@description Mesh texel density with scale-normalized UV stretch analysis. Fixed 2048 texture resolution and 1024 px/m target. Invalid UV uses InvalidUVColor; inconclusive derivative analysis is neutral gray. Checker Strength controls checker contrast.
+//@name UV Island checker
+//@description Texel Density v9 plus UV storage precision RISK at raw UV magnitude: FP16 nearest, FP16 truncate, or FP32 nearest. Fixed 2048 texture / 1024 px/m. Blue is potential quantization risk, not confirmed damage. Invalid UV retains priority. Precision-only view is gray/blue.
 //@order 10
 //@param float Tolerance|Tolerance|0|0.5|0.1
 //@param float UVStretchHighlight|UV Stretch Highlight|0|1|1
 //@param float StretchSensitivity|Stretch Sensitivity|0|1|0.5
 //@param float CheckerScale|Overlay scale|2|128|32
 //@param float CheckerStrength|Checker Strength|0|1|0.24
+//@param float UVPrecisionHighlight|UV Precision Highlight|0|1|1
+//@param float UVPrecisionBudget|UV error budget (texels)|0.25|16|1
+//@param float UVPrecisionFormat|UV storage (0 FP16 / 1 FP16 trunc / 2 FP32)|0|2|0
+//@param float UVPrecisionView|Precision view (0 Combined / 1 Only)|0|1|0
 //@param color LowColor|Low density|0.82|0.09|0.08
 //@param color GoodColor|In range|0.05|0.65|0.34
 //@param color HighColor|High density|1.0|0.48|0.04
 //@param color StretchColor|UV Stretch|1.0|0.92|0.05
+//@param color UVPrecisionColor|UV precision risk|0.12|0.42|1.0
 //@param color InvalidUVColor|Invalid / collapsed UV|1.0|0.0|0.75
 
 // Host contract is unchanged from the supplied v8:
@@ -20,10 +25,12 @@
 // WorldPosition must describe the same surface with compatible interpolation.
 // UvPerMeter remains the host-provided density source; it is not recomputed.
 //
-// v3 only changes this material. It does not require new vertex attributes.
+// v10 adds only a precision-risk overlay; the TD9 analysis below is unchanged.
+// No new vertex attributes, resources, or host-side code are required.
 // Derivative analysis is stateless: it cannot recover precision already lost
 // by the host's interpolation, nor prove that an absent UV channel was replaced
-// with synthetic UVs. Gray means inconclusive, NOT "valid" or "collapsed".
+// with synthetic UVs. In Combined view, gray remains the uncertainty base.
+// In Precision-only view, gray means no local precision warning, NOT "UV valid".
 
 static const uint TD9_UNCERTAIN = 0u;
 static const uint TD9_VALID = 1u;
@@ -204,6 +211,108 @@ TD9UVAnalysis TD9_AnalyzeUV(
     return result;
 }
 
+// ------------------------------------------------------------
+// v10: UV storage precision RISK, not a vertex-quantization simulation.
+// ------------------------------------------------------------
+// The inputs are already interpolated float32 UVs from the host. This material
+// has no access to the original three vertex UVs, the destination vertex format,
+// the destination UV channel, or material-specific UV tiling/offset operations.
+// It therefore cannot reproduce the exact distortion after a mesh is repacked.
+//
+// Instead, estimate the coordinate representation capacity at each observed
+// RAW UV magnitude. Never apply frac() or recenter here: large offsets are
+// precisely the condition this diagnostic is meant to expose.
+//
+// For binary16 normal values, grid spacing = 2^(floor(log2(abs(uv))) - 10).
+// For binary32 normal values, substitute 23 fraction bits for 10.
+// A local nearest-rounding error envelope is 0.5 * spacing; for truncation use
+// one full spacing. Convert to texels at the FIXED reference resolution 2048.
+// Use the largest per-component envelope, not an assumed radial/RMS error.
+//
+// IMPORTANT: this envelope describes local storage precision, not the actual
+// error of the sampled coordinate, not a triangle-wide bound, and not a proof
+// of UV stretch. Exactly representable vertices can be warned conservatively.
+// A long triangle with very different endpoint magnitudes may also have risk
+// that is not represented by the magnitude of an interior interpolated sample.
+//
+// Format 0: IEEE binary16 with round-to-nearest (default).
+// Format 1: IEEE binary16 with truncation toward zero (legacy risk model).
+// Format 2: IEEE binary32 with round-to-nearest (comparison only).
+// Selecting a format NEVER changes how the host stores or renders the mesh.
+
+float TD10_PrecisionEnvelopeTexels(float coordinate, uint format)
+{
+    // Caller rejects non-finite UVs before reaching this function.
+    // Extract the float32 exponent directly: no approximate log2 at powers of 2.
+    uint raw = asuint(coordinate) & 0x7fffffffu;
+    int unbiasedExponent = int((raw >> 23u) & 255u) - 127;
+
+    int spacingExponent;
+    if (format == 2u)
+    {
+        // binary32 spacing, including its smallest theoretical subnormal step.
+        spacingExponent = max(unbiasedExponent - 23, -149);
+    }
+    else
+    {
+        // binary16 preserves subnormal values, whose spacing is always 2^-24.
+        spacingExponent = max(unbiasedExponent - 10, -24);
+    }
+
+    int roundingExponent = format == 1u ? 0 : -1;
+    // 2048 == 2^11. Apply the texture scale in the exponent, BEFORE computing
+    // the float, so a tiny spacing need not underflow before multiplication.
+    int texelExponent = spacingExponent + roundingExponent + 11;
+
+    // Below float32's normal range the value is immaterial to the minimum
+    // 0.25-texel budget. Treat it as zero instead of depending on denormal ALU
+    // behavior. The largest possible finite-input exponent here is 114.
+    if (texelExponent < -126)
+    {
+        return 0.0;
+    }
+    return asfloat(uint(texelExponent + 127) << 23u);
+}
+
+float TD10_PrecisionSeverity(float2 rawUV)
+{
+    float formatValue = TD9_SafeParameter(UVPrecisionFormat, 0.0, 2.0, 0.0);
+    uint format = (uint)floor(formatValue + 0.5);
+    float budget = TD9_SafeParameter(UVPrecisionBudget, 0.25, 16.0, 1.0);
+
+    if (format != 2u && TD9_MaxAbs2(rawUV) > 65504.0)
+    {
+        // Outside binary16's finite range. Flag RISK, not InvalidUV: these
+        // coordinates may still be perfectly finite in the source float32 mesh.
+        return 1.0;
+    }
+
+    float errorU = TD10_PrecisionEnvelopeTexels(rawUV.x, format);
+    float errorV = TD10_PrecisionEnvelopeTexels(rawUV.y, format);
+    float errorEnvelope = max(errorU, errorV);
+
+    // No overlay at/below the chosen budget; full overlay at twice the budget.
+    // This is not actual measured damage and is intentionally not based on the
+    // round-trip error f16tof32(f32tof16(interpolatedUV)) - interpolatedUV.
+    return smoothstep(budget, 2.0 * budget, errorEnvelope);
+}
+
+float3 TD10_ApplyPrecision(float3 baseDiagnostic, float severity, float brightness)
+{
+    float highlight = TD9_SafeParameter(UVPrecisionHighlight, 0.0, 1.0, 1.0);
+    float view = TD9_SafeParameter(UVPrecisionView, 0.0, 1.0, 0.0);
+    float3 riskColor = TD9_SafeColor(UVPrecisionColor, float3(0.12, 0.42, 1.0));
+    float3 displayBase = view >= 0.5 ? float3(0.35, 0.35, 0.35) : baseDiagnostic;
+
+    // With Combined view and highlight == 0, preserve the v9 output exactly.
+    // Invalid UV never reaches this function, regardless of either slider.
+    if (highlight == 0.0)
+    {
+        return displayBase * brightness;
+    }
+    return lerp(displayBase, riskColor, highlight * saturate(severity)) * brightness;
+}
+
 float3 MaterialMain(PSInput input, bool isFrontFace)
 {
     const float TextureResolution = 2048.0;
@@ -237,9 +346,12 @@ float3 MaterialMain(PSInput input, bool isFrontFace)
     {
         return invalidColor;
     }
+    // Precision needs only finite raw UVs, not usable geometry derivatives.
+    float precisionSeverity = TD10_PrecisionSeverity(input.UV);
+
     if (!all(isfinite(input.WorldPosition)))
     {
-        return UncertainColor * checkerBrightness;
+        return TD10_ApplyPrecision(UncertainColor, precisionSeverity, checkerBrightness);
     }
 
     TD9UVAnalysis uv = TD9_AnalyzeUV(positionDx, positionDy, uvDx, uvDy);
@@ -251,9 +363,10 @@ float3 MaterialMain(PSInput input, bool isFrontFace)
     if (uv.State != TD9_VALID)
     {
         // Never disguise an unavailable stretch result as StretchRatio = 1.
-        // Neutral gray deliberately replaces the diagnostic, even when
-        // UVStretchHighlight is zero. It is not an extra UV error category.
-        return UncertainColor * checkerBrightness;
+        // Neutral gray remains the base for uncertain geometric analysis.
+        // A precision risk can still be shown here: raw UV magnitude is known
+        // even when the derivative-based stretch test is inconclusive.
+        return TD10_ApplyPrecision(UncertainColor, precisionSeverity, checkerBrightness);
     }
 
     float tolerance = TD9_SafeParameter(Tolerance, 0.0, 0.5, 0.1);
@@ -283,5 +396,5 @@ float3 MaterialMain(PSInput input, bool isFrontFace)
 
     // Default CheckerStrength = 0.24 exactly preserves v8's 0.76..1.00 range.
     // Strength 0 removes only the checker, not invalid/uncertain diagnostics.
-    return diagnostic * checkerBrightness;
+    return TD10_ApplyPrecision(diagnostic, precisionSeverity, checkerBrightness);
 }

@@ -1,15 +1,28 @@
-//@unlit
 //@name Face Orientation
-//@description Highlights triangle winding: front faces use adjustable red emissive and back faces are blue.
+//@description Inspects rasterized triangle winding independently of vertex normals. Front faces are blue, back faces red. Isolate either side and control back-face HDR emission separately from material lighting.
 //@order 30
-//@param color FrontColor|Front face|0.9|0.05|0.04
-//@param float FrontEmissive|Red emissive|0.0|4.0|1.0
-//@param color BackColor|Back face|0.04|0.25|0.95
+//@emissive
+//@category Face visibility
+//@param choice VisibleFaces|Show faces|0|Both=0|Front=1|Back=2
+//@category Face colors
+//@param color FrontColor|Front face|0.04|0.25|0.95
+//@param color BackColor|Back face|0.9|0.05|0.04
+//@category Back-face emission
+//@param float RedEmissive|Emission strength|0.0|20.0|8.0|0.1
+//@presets Off=0|Low=2|High=8
 
 float3 MaterialMain(PSInput input, bool isFrontFace)
 {
-    // Face Orientation is unlit, so this is a true self-lit diagnostic value:
-    // zero disables the red output, one preserves the selected FrontColor and
-    // values above one increase HDR intensity when the viewport is switched to Lit.
-    return isFrontFace ? FrontColor * FrontEmissive : BackColor;
+    // SV_IsFrontFace reflects winding after projection; vertex normals must not
+    // be used to classify faces. The host renders both sides (CULL_NONE).
+    int faces = (int)round(VisibleFaces);
+    clip((faces == 1 && !isFrontFace) || (faces == 2 && isFrontFace) ? -1.0 : 1.0);
+    return saturate(isFrontFace ? FrontColor : BackColor);
+}
+
+float3 MaterialEmissive(PSInput input, bool isFrontFace)
+{
+    // Emission is separate from base color and reaches Bloom as linear HDR.
+    float strength = isfinite(RedEmissive) ? clamp(RedEmissive, 0.0, 20.0) : 8.0;
+    return isFrontFace ? float3(0.0, 0.0, 0.0) : SRGBToLinear(saturate(BackColor)) * strength;
 }
