@@ -1,0 +1,16 @@
+Poly Haven HDRI assets
+=====================
+
+HDRI_01.hdr and HDRI_02.hdr are Poly Haven assets distributed under
+CC0 1.0 Universal. The files are included under local names.
+
+Source: https://polyhaven.com/hdris
+Asset license: CC0 1.0 Universal (see CC0-1.0.txt).
+License policy: https://polyhaven.com/license (checked 2026-09-15).
+Poly Haven permits redistribution and commercial use of its HDRI assets.
+
+Resources/HDRI/HDRI_01.hdr
+SHA-256: 633637d9b6517c6f47eaca1a3b03bc2e958a984cc6cd0044f58336a741ee48b6
+
+Resources/HDRI/HDRI_02.hdr
+SHA-256: dbe5f750e4753f51ef8d178553318ad8550035cac0ce5cfab058e76cf8f021d2
