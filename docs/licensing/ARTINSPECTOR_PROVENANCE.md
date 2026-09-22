@@ -4,9 +4,7 @@ Audit date: 2026-09-22. This document records evidence, not an assertion that al
 unattributed work belongs to ArtInspector. No private prompts or conversations
 are published as provenance evidence.
 
-The owner recalls possible Adobe Spectrum and AI involvement but cannot identify
-exact packages, source files or versions. That recollection does not establish
-original authorship, a specific license, or whether every asset shares one origin.
+Ultimate origin/authorship of UI icons and the logo has not been conclusively established. No third-party license is assigned without file-level evidence. MANUAL REVIEW REQUIRED.
 
 | Component | Origin | Author | License | Evidence | Confidence |
 | --- | --- | --- | --- | --- | --- |
@@ -22,7 +20,7 @@ original authorship, a specific license, or whether every asset shares one origi
 | Resources/Materials/40_vertex_color.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
 | Resources/Materials/UV Island checker.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; efc1608 2026-09-10 Update; 0b97cfa 2026-09-08 Update | PARTIALLY CONFIRMED lineage |
 | Legacy RAR v0.1.0: 00_default_materials, 10_texel_density, 10_texel_density_v2, 30_face_orientation, 40_vertex_color | UNKNOWN ultimate origin | Not independently established | MANUAL REVIEW REQUIRED | Original uploaded RAR preserved; names occur in early material history, but later revisions differ | PARTIALLY CONFIRMED lineage |
-| UI icons and tokens | Native procedural drawing; comments refer to earlier HTML paths | Unknown ultimate source | MANUAL REVIEW REQUIRED | Current associated native implementation; uncertain Spectrum + AI recollection | PARTIALLY CONFIRMED implementation, not origin |
+| UI icons and tokens | Native procedural drawing; comments refer to earlier HTML paths | Unknown ultimate source | MANUAL REVIEW REQUIRED | Current associated native implementation; ultimate source not established | PARTIALLY CONFIRMED implementation, not origin |
 | ArtInspector logo | A-shaped local SVG matches native BrandMark geometry | Not independently established | MANUAL REVIEW REQUIRED | SVG uses M4 19 11 4h2l7 15 and two crossbars, matching procedural logo | PARTIALLY CONFIRMED lineage |
 | HDRI_01.hdr, HDRI_02.hdr | Poly Haven | Individual contributors not identified | CC0-1.0 | Prior owner confirmation, identical SHA-256 across current and both RARs; official policy | CONFIRMED |
 | ProggyClean | Embedded ImGui font | Tristan Grimmer, 2004/2005 | MIT | Vendored font comment and upstream license; font name in all inspected EXEs | CONFIRMED |
@@ -42,15 +40,9 @@ not rule out copied coordinates. Searches in available local SVG/HTML material
 found the matching project logo, but no definitive original third-party source.
 The exact historical HTML reference has not been recovered.
 
-Adobe's [React Spectrum license](https://github.com/adobe/react-spectrum/blob/main/LICENSE),
-[Spectrum CSS license](https://github.com/adobe/spectrum-css/blob/main/LICENSE) and
-[Spectrum Design Data license](https://github.com/adobe/spectrum-design-data/blob/main/LICENSE)
-were consulted as possible sources. Their existence does not prove that an
-unknown icon is covered by one of those repositories. Do not blanket-label these
-assets Apache-2.0 or original ArtInspector work without a file-level match.
+No third-party license or original ArtInspector authorship is assigned to unknown icons or the logo without file-level evidence.
 
-Resolution: identify the original source/version and any applicable LICENSE,
+Resolution: record the exact upstream repository, package, file/version and applicable LICENSE,
 NOTICE and modification requirements, or commission/implement a clearly recorded
 replacement in a separate authorized task. No rendering, checker or icon changes
-were made merely to close this audit. AI assistance is not evidence of permission
-to reuse third-party work.
+were made merely to close this audit.

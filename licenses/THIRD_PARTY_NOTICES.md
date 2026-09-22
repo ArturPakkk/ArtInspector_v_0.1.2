@@ -61,7 +61,4 @@ The oldest available associated source snapshot declares ufbx 0.23.0; that is
 corroborating evidence, not proof of an earlier executable's exact version.
 See [the per-artifact audit](../docs/licensing/DEPENDENCY_LICENSE_AUDIT.md).
 
-The owner recalls possible Adobe Spectrum plus AI involvement but does not
-remember exact sources. This is not confirmation of original authorship or a
-specific Adobe package/license. No blanket Adobe license is applied to unknown
-shapes. AI assistance does not remove upstream rights or establish provenance.
+Ultimate origin/authorship of UI icons and the logo has not been conclusively established. MANUAL REVIEW REQUIRED. No third-party license is assigned without file-level evidence. If an upstream source is identified, record the exact repository, package, file/version, license, NOTICE requirements and modification requirements.
