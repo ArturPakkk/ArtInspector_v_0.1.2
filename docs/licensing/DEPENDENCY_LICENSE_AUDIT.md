@@ -1,8 +1,10 @@
 # ArtInspector distribution dependency audit
 
-2026-09-22. Scope: public main at ae9573b603adb6ba81f7ddac3c46d848c2a32806,
-its OldVersions binaries, manually uploaded v0.1.0 / 0.1.2 RARs, and the associated
-current optimized native build. No private source files are included in this repo.
+2026-09-22. Scope: the audited public distribution baseline at
+ae9573b603adb6ba81f7ddac3c46d848c2a32806, its OldVersions binaries, manually
+uploaded v0.1.0 / 0.1.2 RARs, and the associated current optimized native build.
+Later licensing-cleanup commits changed documentation only, not the audited
+executables or resource payload. No private source files are included in this repo.
 
 ## Evidence and requirements
 
