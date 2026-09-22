@@ -1,7 +1,7 @@
-# Third-party notices — ArtInspector v0.1.2
+# Third-party notices — ArtInspector
 
 Third-party rights are independent of the ArtInspector proprietary license.
-The texts below accompany both the source and executable distribution.
+The texts below accompany this executable distribution.
 
 | Component / use | Copyright / license | Accompanying text |
 | --- | --- | --- |
@@ -49,3 +49,19 @@ an invented third-party license here. LICENSE REQUIRES MANUAL REVIEW before
 public redistribution. Source/Icons describes possible Unreal candidate assets,
 but those candidate SVG files are not present or packaged; this does not prove
 that all procedural shapes were independently authored.
+
+## Evidence limits and historical builds
+
+This inventory is verified against the associated current native build inputs;
+those private development inputs are not published by this distribution repository.
+Both original release RAR executables identify ImGui 1.92.9 and both Proggy font
+names. They contain ufbx diagnostic strings, but an exact ufbx/SDK/toolchain version
+cannot be certified for every historical EXE without its original build record.
+The oldest available associated source snapshot declares ufbx 0.23.0; that is
+corroborating evidence, not proof of an earlier executable's exact version.
+See [the per-artifact audit](../docs/licensing/DEPENDENCY_LICENSE_AUDIT.md).
+
+The owner recalls possible Adobe Spectrum plus AI involvement but does not
+remember exact sources. This is not confirmation of original authorship or a
+specific Adobe package/license. No blanket Adobe license is applied to unknown
+shapes. AI assistance does not remove upstream rights or establish provenance.

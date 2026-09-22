@@ -1,33 +1,40 @@
-# Viewport materials
+# ArtInspector 0.1.2 checker materials
 
-The runtime material library lives in `Resources/Materials`. The portable build mirrors this directory next to the executable, so adding an `.hlsl` or `.glsl` file there is enough for it to appear in the application.
+This folder contains the eleven supplied HLSL checkers. Select a checker in the
+application and adjust its generated parameter controls. F5 reloads materials;
+file changes are also detected automatically. Refresh clears the scene and resets
+checker parameters. Selecting a checker preserves the current Lit/Unlit state.
 
-Every `.hlsl` or `.glsl` file in this directory is discovered automatically (every 0.8 seconds), on startup, or when **Reload** / F5 is pressed. Existing parameter values survive reloads by matching name and type. A failed compile keeps the last working shader visible.
+## Creating a material for your own use
 
-The file must implement:
-
-```hlsl
-float3 MaterialMain(PSInput input, bool isFrontFace)
-```
-
-Metadata is read from comments:
+Implement the host entry point:
 
 ```hlsl
 //@name My Checker
-//@description A short description shown in the UI.
+//@description Custom diagnostic material.
 //@order 50
-//@unlit
 //@param float Scale|Checker scale|1|256|32
 //@param color Tint|Tint color|0.1|0.6|1.0
+float3 MaterialMain(PSInput input, bool isFrontFace)
+{
+    float checker = fmod(floor(input.UV.x * Scale) + floor(input.UV.y * Scale), 2.0);
+    return lerp(Tint * 0.15, Tint, checker);
+}
 ```
 
-Parameters become HLSL symbols (`Scale`, `Tint`) and automatically appear in the Material Parameters panel. Up to 16 parameters are supported. `.glsl` files use the same `MaterialMain` contract and may use `vec2/3/4`, `mix`, `fract`, `dFdx` and `dFdy`; this compact GLSL subset is translated for the DirectX 11 runtime.
+The current legacy host supports up to 64 parameter slots and choice parameters.
+The compact GLSL-like input accepts vec2/3/4, mix, fract, dFdx and dFdy and translates
+them to HLSL; it is not a general OpenGL/GLSL renderer. HLSL is used for the shipped
+materials. Input fields include WorldPosition, Normal, UV, MaterialColor,
+VertexColor, UvPerMeter, Flags and the host-provided WireBarycentric.
+FilteredChecker(float2 uv) supplies a filtered checker helper.
 
-Available input fields: `WorldPosition`, `Normal`, `UV`, `MaterialColor`, `VertexColor`, `UvPerMeter`, and `Flags`. The helper `TexelDensityRatio(input)` returns screen-space UV units per world-space meter.
+Solid Wireframe uses barycentrics assigned by the 0.1.2 host, not UV coordinates.
+Emissive is supported; Bloom is not. Shader reload keeps compatible parameter
+values; use reset controls to restore shader defaults. A shader that requires
+new host fields cannot simply be installed into an older executable.
 
-`FilteredChecker(float2 uv)` returns a pixel-filtered checker in [0,1], including negative UVs and minification. Use it instead of floor/fmod to avoid shimmering. Optional `//@unlit` selects diagnostic shading by default; the user may still switch to Lit. Unlit colors are display colors and bypass exposure/tone mapping. Lit material colors are interpreted as linear reflectance.
-
-
-## ArtInspector legacy integration, 2026-09-14
-
-The eleven shipped HLSL files are copied unchanged from ArtInspectorUI_Source/resources/Materials. Old HLSL/GLSL files have been removed from this version and its current build. The host supports up to 64 parameter slots and choice labels/values. Solid Wireframe uses noperspective barycentrics from the existing expanded, non-indexed triangle list; each draw starts on a triangle boundary. Emissive is added independently of base-color lighting before output mapping; this renderer has no Bloom pass. Selecting a checker preserves Lit/Unlit and sun/environment settings. Refresh in the application header clears the scene; F5 remains material reload.
+These instructions describe 0.1.2, not the earlier v0.1.0 RAR. Preserve your own
+modified shaders before replacing a package. See [license terms](../../LICENSE.md),
+[third-party notices](../../licenses/THIRD_PARTY_NOTICES.md) and
+[provenance review](../../docs/licensing/ARTINSPECTOR_PROVENANCE.md).

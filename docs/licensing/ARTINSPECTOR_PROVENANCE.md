@@ -1,0 +1,56 @@
+# ArtInspector provenance status
+
+Audit date: 2026-09-22. This document records evidence, not an assertion that all
+unattributed work belongs to ArtInspector. No private prompts or conversations
+are published as provenance evidence.
+
+The owner recalls possible Adobe Spectrum and AI involvement but cannot identify
+exact packages, source files or versions. That recollection does not establish
+original authorship, a specific license, or whether every asset shares one origin.
+
+| Component | Origin | Author | License | Evidence | Confidence |
+| --- | --- | --- | --- | --- | --- |
+| Resources/Materials/00_default_materials.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/10_Texel_Density - Default.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/10_Texel_Density_Pro.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; efc1608 2026-09-10 Update; 0b97cfa 2026-09-08 Update | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/20_uv_checker.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/22_z_fighting_checker.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/23_uv_repetition_checker_v1.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | ba9ae79 2026-09-10 Update | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/25_shading_checker.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/26_solid_wireframe_v1.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/30_face_orientation.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/40_vertex_color.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; 75e31e2 2026-09-07 Init | PARTIALLY CONFIRMED lineage |
+| Resources/Materials/UV Island checker.hlsl | UNKNOWN ultimate origin; project revision history located | Not independently established | MANUAL REVIEW REQUIRED | 1688ce0 2026-09-14 Update legacy ArtInspector UI, materials and viewport controls; efc1608 2026-09-10 Update; 0b97cfa 2026-09-08 Update | PARTIALLY CONFIRMED lineage |
+| Legacy RAR v0.1.0: 00_default_materials, 10_texel_density, 10_texel_density_v2, 30_face_orientation, 40_vertex_color | UNKNOWN ultimate origin | Not independently established | MANUAL REVIEW REQUIRED | Original uploaded RAR preserved; names occur in early material history, but later revisions differ | PARTIALLY CONFIRMED lineage |
+| UI icons and tokens | Native procedural drawing; comments refer to earlier HTML paths | Unknown ultimate source | MANUAL REVIEW REQUIRED | Current associated native implementation; uncertain Spectrum + AI recollection | PARTIALLY CONFIRMED implementation, not origin |
+| ArtInspector logo | A-shaped local SVG matches native BrandMark geometry | Not independently established | MANUAL REVIEW REQUIRED | SVG uses M4 19 11 4h2l7 15 and two crossbars, matching procedural logo | PARTIALLY CONFIRMED lineage |
+| HDRI_01.hdr, HDRI_02.hdr | Poly Haven | Individual contributors not identified | CC0-1.0 | Prior owner confirmation, identical SHA-256 across current and both RARs; official policy | CONFIRMED |
+| ProggyClean | Embedded ImGui font | Tristan Grimmer, 2004/2005 | MIT | Vendored font comment and upstream license; font name in all inspected EXEs | CONFIRMED |
+| ProggyForever minimal | Embedded ImGui font | Disco Hello 2026; Tristan Grimmer 2019/2023 | MIT | Vendored font comment and upstream license; font name in all inspected EXEs | CONFIRMED |
+| System Segoe UI / Consolas | Installed Windows fonts | Respective Microsoft font rights holders | Installed system terms | Font-loading code; no TTF/OTF distributed | CONFIRMED use, not redistribution permission |
+
+Current shader files match the public main snapshot and the associated current
+legacy source byte-for-byte. Internal history traces material integration; it
+does not prove that the original algorithms or code were independently authored.
+Solid Wireframe also has an earlier implementation guide describing its native
+barycentric integration. Neither that guide nor the commit author establishes
+an upstream copyright license by itself. No supplied external attribution was
+found in the checked material comments.
+
+No packaged Adobe/React/Unreal icon library was found in the build. This does
+not rule out copied coordinates. Searches in available local SVG/HTML material
+found the matching project logo, but no definitive original third-party source.
+The exact historical HTML reference has not been recovered.
+
+Adobe's [React Spectrum license](https://github.com/adobe/react-spectrum/blob/main/LICENSE),
+[Spectrum CSS license](https://github.com/adobe/spectrum-css/blob/main/LICENSE) and
+[Spectrum Design Data license](https://github.com/adobe/spectrum-design-data/blob/main/LICENSE)
+were consulted as possible sources. Their existence does not prove that an
+unknown icon is covered by one of those repositories. Do not blanket-label these
+assets Apache-2.0 or original ArtInspector work without a file-level match.
+
+Resolution: identify the original source/version and any applicable LICENSE,
+NOTICE and modification requirements, or commission/implement a clearly recorded
+replacement in a separate authorized task. No rendering, checker or icon changes
+were made merely to close this audit. AI assistance is not evidence of permission
+to reuse third-party work.

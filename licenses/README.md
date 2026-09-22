@@ -1,19 +1,16 @@
-# License files for ArtInspector v0.1.2
+# ArtInspector third-party licenses
 
-This directory is copied in full beside ArtInspector.exe by build.bat through
-tools/Deploy.ps1. Keep it with the application and keep LICENSE.md at its root.
-The old root THIRD_PARTY_NOTICES.md now points to this canonical index.
+Keep this entire directory and the root LICENSE.md with the application.
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) is the canonical component index;
+[the root notice](../THIRD_PARTY_NOTICES.md) links here.
 
-- native/Dear-ImGui-MIT.txt: vendored ImGui and Win32/DX11 backends.
-- native/ufbx-LICENSE.txt: complete vendored dual license; MIT alternative used.
-- native/imstb_*-LICENSE.txt: full license blocks extracted from the three
-  ImGui-modified stb headers; MIT alternative used.
-- native/DirectXMath-MIT.txt: Microsoft SDK inline math/collision code.
-- fonts/ProggyClean-MIT.txt and fonts/ProggyForever-MIT.txt: embedded ImGui fonts.
-- assets/PolyHaven.txt and assets/CC0-1.0.txt: two identified HDRI files.
+- native/: ImGui, ufbx, three ImGui-modified stb headers and DirectXMath.
+- fonts/: embedded ProggyClean and ProggyForever fonts.
+- assets/: identified Poly Haven HDRI files and CC0 text.
 
-See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for upstream sources,
-copyrights, use and unresolved provenance. License copying is not certification
-that every provenance question has been settled. The audit is in
-../docs/licensing/DEPENDENCY_LICENSE_AUDIT.md in the source tree.
-No npm, Diligent, Electron or React runtime is distributed by this build.
+These texts accompany the application binary. Their upstream rights are not
+restricted by ArtInspector's proprietary terms. The public
+[dependency audit](../docs/licensing/DEPENDENCY_LICENSE_AUDIT.md) describes evidence
+and uncertainty; [legacy notes](../docs/licensing/LEGACY_RELEASES.md) distinguish
+old archives from current builds. License files alone do not resolve unknown
+asset origins. No complete application build system is published in this repository.

@@ -1,15 +1,25 @@
-# ArtInspector v0.1.2 — Proprietary / Source Available
+# ArtInspector — Proprietary / Source-Available Terms
 
 Copyright (c) 2026 ArturPakkk. All rights reserved in the proprietary portion.
 Author: https://github.com/ArturPakkk
 
-Project licensing text, revision 1, 2026-09-22. This custom text is not an
+Effective date: 2026-09-22. Project licensing text, revision 2. This custom text is not an
 OSI-approved open-source license and should receive professional legal review
-before commercial distribution. It applies to this legacy version only.
+before commercial distribution.
+
+Unless a particular version contains a different explicit license notice, these
+terms apply to the proprietary ArtInspector code and binaries published from
+https://github.com/ArturPakkk/ArtInspector_v_0.1.2, including legacy ArtInspector
+releases v0.1.0 and v0.1.2 (Git tag 0.1.2).
+
+Third-party components remain governed exclusively by their respective licenses.
+This document does not revoke or restrict rights previously granted under another
+applicable license. These terms are stated effective on the date above; they are
+not represented as having appeared in earlier commits, tags or archives.
 
 ## ArtInspector proprietary code
 
-You may install and use this version free of charge for personal, educational,
+You may install and use covered versions free of charge for personal, educational,
 and commercial work, and make private backup copies. Where the author makes
 source publicly viewable, you may inspect it and compile a private copy for
 these permitted uses. Public visibility does not grant a general license to

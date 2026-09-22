@@ -1,0 +1,23 @@
+# Distribution repository: EXE, Config, Resources, licenses and docs are intentional.
+/.vs/
+/.idea/
+/build/
+/out/
+/.cache/
+*.user
+*.suo
+*.pdb
+*.ilk
+*.log
+*.tmp
+*.dmp
+Thumbs.db
+.DS_Store
+.env
+.env.*
+!.env.example
+!.env.sample
+# Do not publish task prompts, authentication state or local settings.
+/.arthelper/
+/Config/UserSettings.ini
+/Config/WindowState.ini
