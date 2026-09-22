@@ -8,11 +8,12 @@ assets move further through production. Author: [ArturPakkk](https://github.com/
 The latest tagged release is **0.1.3**. This is the legacy ArtInspector distribution
 repository: it contains executable builds, resources and licensing information,
 not the complete C++ development project. The main-branch executable can differ
-from the tagged release; use the release asset for a reproducible historic build.
-GitHub's “Source code” ZIP/tar.gz snapshots contain this distribution repository,
-not the full application source. Private development files are not needed to run it.
+from an older tagged release; use each GitHub Release asset for a reproducible
+published build. GitHub's “Source code” ZIP/tar.gz snapshots contain this
+distribution repository, not the full application source. Private development
+files are not needed to run it.
 
-## Features in 0.1.2
+## Features
 
 - FBX model import, a Direct3D 11 viewport and Outliner selection/visibility.
 - UV0 and texel-density inspection, shading and face-orientation checks.
@@ -28,20 +29,21 @@ as application import formats.
 ## Installation
 
 1. Open [Releases](https://github.com/ArturPakkk/ArtInspector_v_0.1.2/releases).
-2. Download the manually uploaded Windows RAR for the intended version and extract
-   the whole archive. Do not run the executable from inside the archive viewer.
-3. In 0.1.2, open the ArtInspector folder and run ArtInspector.exe. Keep Config,
-   Resources, LICENSE.md and licenses together when available in the package.
+2. Download the Windows RAR for the intended version and extract the whole archive.
+   Do not run the executable from inside the archive viewer.
+3. Open the extracted ArtInspector folder and run ArtInspector.exe. Keep Config,
+   Resources, LICENSE.md and licenses together with the executable.
 
 Windows x64 with a Direct3D 11 / Shader Model 5.0 capable GPU is required by the
 current build. Clean-machine minimum Windows support has not been certified.
 Do not copy Windows system DLLs or fonts into the application folder yourself.
 
-Original historical RAR files lack the formal license bundle; see
-[legacy release information](docs/licensing/LEGACY_RELEASES.md). License-updated
-repack candidates are not represented as already published releases.
+The original v0.1.0 and 0.1.2 RAR files predate the formal license bundle. Their
+original assets remain preserved, and each legacy Release now also includes a
+separate licensing-20260922 supplementary archive with the current licensing
+documents. See [legacy release information](docs/licensing/LEGACY_RELEASES.md).
 The original v0.1.0 RAR launches **TexelDensityInspector.exe**, whereas its Git-tag
-snapshot contains **Artnspector.exe**; they are different builds.
+snapshot contains **Artnspector.exe**; they are different historical builds.
 
 ## Repository structure
 
