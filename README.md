@@ -5,7 +5,7 @@ assets move further through production. Author: [ArturPakkk](https://github.com/
 
 ## Current public version
 
-The latest tagged release is **0.1.2**. This is the legacy ArtInspector distribution
+The latest tagged release is **0.1.3**. This is the legacy ArtInspector distribution
 repository: it contains executable builds, resources and licensing information,
 not the complete C++ development project. The main-branch executable can differ
 from the tagged release; use the release asset for a reproducible historic build.
